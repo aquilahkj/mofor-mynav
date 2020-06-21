@@ -2,6 +2,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:mynav/utils/image_utils.dart';
 
 /// 加载本地资源图片
 class LoadAssetImage extends StatelessWidget {

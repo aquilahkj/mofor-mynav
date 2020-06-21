@@ -74,7 +74,6 @@ dependencies:
   path_provider: ^1.6.10
   device_info: ^0.4.2+4
   package_info: ^0.4.1
-  connectivity: ^0.4.8+6
   sliding_up_panel: ^1.0.2
   permission_handler: ^5.0.1
 

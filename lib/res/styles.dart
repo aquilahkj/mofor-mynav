@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'basic_colors.dart';
+import 'colors.dart';
 import 'dimens.dart';
 
 class TextStyles {
