@@ -1,0 +1,93 @@
+{
+  "@@last_modified": "2020-06-24T21:51:48.405388",
+  "title": "MyNav",
+  "@title": {
+    "description": "Title for the application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verificationCodeLogin": "验证码登录",
+  "@verificationCodeLogin": {
+    "description": "Title for the Login page",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordLogin": "密码登录",
+  "@passwordLogin": {
+    "description": "Password Login",
+    "type": "text",
+    "placeholders": {}
+  },
+  "login": "登录",
+  "@login": {
+    "description": "Login",
+    "type": "text",
+    "placeholders": {}
+  },
+  "forgotPasswordLink": "忘记密码",
+  "@forgotPasswordLink": {
+    "description": "Forgot Password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputPasswordHint": "请输入密码",
+  "@inputPasswordHint": {
+    "description": "Please enter the password",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputUsernameHint": "请输入账号",
+  "@inputUsernameHint": {
+    "description": "Please input Username",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noAccountRegisterLink": "还没账号？快去注册",
+  "@noAccountRegisterLink": {
+    "description": "No account yet? Register now",
+    "type": "text",
+    "placeholders": {}
+  },
+  "register": "注册",
+  "@register": {
+    "description": "Register",
+    "type": "text",
+    "placeholders": {}
+  },
+  "openYourAccount": "开启你的账号",
+  "@openYourAccount": {
+    "description": "Open your account",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputPhoneHint": "请输入手机号",
+  "@inputPhoneHint": {
+    "description": "Please enter phone number",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputVerificationCodeHint": "请输入验证码",
+  "@inputVerificationCodeHint": {
+    "description": "Please enter verification code",
+    "type": "text",
+    "placeholders": {}
+  },
+  "inputPhoneInvalid": "请输入有效的手机号",
+  "@inputPhoneInvalid": {
+    "description": "Please input valid mobile phone number",
+    "type": "text",
+    "placeholders": {}
+  },
+  "verification": "验证",
+  "@verification": {
+    "description": "Not really sent, just log in!",
+    "type": "text",
+    "placeholders": {}
+  },
+  "getVerificationCode": "获取验证码",
+  "@getVerificationCode": {
+    "description": "Get verification code",
+    "type": "text",
+    "placeholders": {}
+  }
+}

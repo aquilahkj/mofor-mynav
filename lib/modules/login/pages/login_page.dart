@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flustars/flustars.dart';
 import 'package:mynav/common/common.dart';
+import 'package:mynav/utils/toast.dart';
 // import 'package:mynav/localization/app_localizations.dart';
 // import 'package:mynav/res/resources.dart';
 // import 'package:mynav/routers/fluro_navigator.dart';
@@ -15,7 +16,29 @@ import 'package:mynav/common/common.dart';
 
 // import '../login_router.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({
+    Key key,
+    this.message,
+  }) : super(key: key);
+
+  final String message;
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (widget.message != null && widget.message.isNotEmpty) {
+        Toast.show(widget.message);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
