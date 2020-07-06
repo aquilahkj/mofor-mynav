@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:mynav/res/resources.dart';
 import 'package:mynav/utils/theme_utils.dart';
 
+import 'load_image.dart';
+
 /// 自定义AppBar
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
@@ -13,7 +15,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title = '',
     this.centerTitle = '',
     this.actionName = '',
-    this.backImg = 'assets/images/ic_back_black.png',
+    this.backImg = 'ic_arrow_back',
     this.onPressed,
     this.isBack = true
   }): super(key: key);
@@ -46,10 +48,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       },
       tooltip: 'Back',
       padding: const EdgeInsets.all(12.0),
-      icon: Image.asset(
-        backImg,
-        color: ThemeUtils.getIconColor(context),
-      ),
+      icon: LoadAssetImage(backImg, color: ThemeUtils.getIconColor(context)),
     ) : Gaps.empty;
 
     var action = actionName.isNotEmpty ? Positioned(

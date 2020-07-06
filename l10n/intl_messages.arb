@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-24T22:09:47.506509",
+  "@@last_modified": "2020-06-25T14:36:49.144795",
   "title": "Flutter Deer",
   "@title": {
     "description": "Title for the application",
@@ -87,6 +87,24 @@
   "getVerificationCode": "Get verification code",
   "@getVerificationCode": {
     "description": "Get verification code",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear",
+    "type": "text",
+    "placeholders": {}
+  },
+  "clearInputField": "Clear the input field",
+  "@clearInputField": {
+    "description": "Clear the input field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordVisibleSwitch": "Password Visible Switch",
+  "@passwordVisibleSwitch": {
+    "description": "Password Visible Switch",
     "type": "text",
     "placeholders": {}
   }

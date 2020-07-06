@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "clear" : MessageLookupByLibrary.simpleMessage("Clear"),
+    "clearInputField" : MessageLookupByLibrary.simpleMessage("Clear the input field"),
     "forgotPasswordLink" : MessageLookupByLibrary.simpleMessage("Forgot Password"),
     "getVerificationCode" : MessageLookupByLibrary.simpleMessage("Get verification code"),
     "inputPasswordHint" : MessageLookupByLibrary.simpleMessage("Please enter the password"),
@@ -32,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "noAccountRegisterLink" : MessageLookupByLibrary.simpleMessage("No account yet? Register now"),
     "openYourAccount" : MessageLookupByLibrary.simpleMessage("Open your account"),
     "passwordLogin" : MessageLookupByLibrary.simpleMessage("Password Login"),
+    "passwordVisibleSwitch" : MessageLookupByLibrary.simpleMessage("Password Visible Switch"),
     "register" : MessageLookupByLibrary.simpleMessage("Register"),
     "title" : MessageLookupByLibrary.simpleMessage("Flutter Deer"),
     "verification" : MessageLookupByLibrary.simpleMessage("Not really sent, just log in!"),

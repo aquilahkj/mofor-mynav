@@ -18,36 +18,39 @@ class ExceptionHandle {
   static const int unknown_error = 9999;
 
   static NetError handleException(dynamic error) {
-    print(error);
     if (error is DioError) {
-      if (error.type == DioErrorType.DEFAULT || 
+      if (error.type == DioErrorType.DEFAULT ||
           error.type == DioErrorType.RESPONSE) {
         dynamic e = error.error;
         if (e is SocketException) {
-          return NetError(socket_error, '网络异常，请检查你的网络！');
+          return NetError(socket_error, '网络异常，请检查你的网络！', error: e);
         }
         if (e is HttpException) {
-          return NetError(http_error, '服务器异常！');
+          return NetError(http_error, '服务器异常！', error: e);
         }
-        return NetError(net_error, '网络异常，请检查你的网络！');
+        return NetError(net_error, '网络异常，请检查你的网络！', error: error);
       } else if (error.type == DioErrorType.CONNECT_TIMEOUT ||
           error.type == DioErrorType.SEND_TIMEOUT ||
           error.type == DioErrorType.RECEIVE_TIMEOUT) {
-        return NetError(timeout_error, '连接超时！');
+        return NetError(timeout_error, '连接超时！', error: error);
       } else if (error.type == DioErrorType.CANCEL) {
-        return NetError(cancel_error, '取消请求');
+        return NetError(cancel_error, '取消请求', error: error);
       } else {
-        return NetError(unknown_error, '未知异常');
+        return NetError(unknown_error, '未知异常', error: error);
       }
     } else {
-      return NetError(unknown_error, '未知异常');
+      return NetError(unknown_error, '未知异常', error: error);
     }
   }
 }
 
-class NetError{
-  int code;
-  String msg;
-
-  NetError(this.code, this.msg);
+class NetError implements Exception {
+  NetError(
+    this.code,
+    this.msg, {
+    this.error,
+  });
+  final int code;
+  final String msg;
+  final dynamic error;
 }

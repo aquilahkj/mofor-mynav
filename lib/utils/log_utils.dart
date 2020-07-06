@@ -1,7 +1,7 @@
 
 import 'dart:convert' as convert;
 import 'package:common_utils/common_utils.dart';
-import 'package:mynav/common/common.dart';
+import 'package:mynav/common/constant.dart';
 
 
 /// 输出Log工具类

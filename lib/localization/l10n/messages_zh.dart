@@ -21,6 +21,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "clear" : MessageLookupByLibrary.simpleMessage("清空"),
+    "clearInputField" : MessageLookupByLibrary.simpleMessage("清空输入框"),
     "forgotPasswordLink" : MessageLookupByLibrary.simpleMessage("忘记密码"),
     "getVerificationCode" : MessageLookupByLibrary.simpleMessage("获取验证码"),
     "inputPasswordHint" : MessageLookupByLibrary.simpleMessage("请输入密码"),
@@ -32,8 +34,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noAccountRegisterLink" : MessageLookupByLibrary.simpleMessage("还没账号？快去注册"),
     "openYourAccount" : MessageLookupByLibrary.simpleMessage("开启你的账号"),
     "passwordLogin" : MessageLookupByLibrary.simpleMessage("密码登录"),
+    "passwordVisibleSwitch" : MessageLookupByLibrary.simpleMessage("密码可见开关"),
     "register" : MessageLookupByLibrary.simpleMessage("注册"),
-    "title" : MessageLookupByLibrary.simpleMessage("MyNav"),
+    "title" : MessageLookupByLibrary.simpleMessage("Flutter Deer"),
     "verification" : MessageLookupByLibrary.simpleMessage("验证"),
     "verificationCodeLogin" : MessageLookupByLibrary.simpleMessage("验证码登录")
   };

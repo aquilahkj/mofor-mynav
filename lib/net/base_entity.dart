@@ -1,5 +1,5 @@
 
-import 'package:mynav/common/common.dart';
+import 'package:mynav/common/constant.dart';
 import 'package:mynav/generated/json/base/json_convert_content.dart';
 
 class BaseEntity<T> {
@@ -14,6 +14,7 @@ class BaseEntity<T> {
   BaseEntity.fromJson(Map<String, dynamic> json) {
     code = json[Constant.code] as int;
     message = json[Constant.message] as String;
+    
     if (json.containsKey(Constant.data)) {
       if (json[Constant.data] is List) {
         json[Constant.data].forEach((Object item) {

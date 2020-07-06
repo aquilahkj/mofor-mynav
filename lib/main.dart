@@ -14,7 +14,9 @@ import 'package:mynav/utils/log_utils.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:provider/provider.dart';
 
-import 'common/common.dart';
+import 'common/constant.dart';
+import 'common/configuration.dart';
+import 'localization/app_localizations_delegate.dart';
 import 'modules/home/splash_page.dart';
 
 Future<void> main() async {
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
     /// 适配数据(根据自己的数据结构，可自行选择添加)
     interceptors.add(AdapterInterceptor());
     setInitDio(
-      baseUrl: 'https://api.github.com/',
+      baseUrl: Configuration.baseUrl,
       interceptors: interceptors,
     );
   }
@@ -88,7 +90,7 @@ class MyApp extends StatelessWidget {
                 home: home ?? SplashPage(),
                 onGenerateRoute: Application.router.generator,
                 localizationsDelegates: const [
-                  // AppLocalizationsDelegate(),
+                  AppLocalizationsDelegate(),
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,

@@ -159,5 +159,41 @@ class AppLocalizations {
         locale: localeName
     );
   }
+
+  String get clear {
+    return Intl.message(
+        'Clear', 
+        name: 'clear',
+        desc: 'Clear',
+        locale: localeName
+    );
+  }
+
+  String get clearInputField {
+    return Intl.message(
+        'Clear the input field',
+        name: 'clearInputField',
+        desc: 'Clear the input field',
+        locale: localeName
+    );
+  }
+
+  String get passwordVisibleSwitch {
+    return Intl.message(
+        'Password Visible Switch', 
+        name: 'passwordVisibleSwitch',
+        desc: 'Password Visible Switch',
+        locale: localeName
+    );
+  }
+
+  String get passwordIsVisible {
+    return Intl.message(
+        'Whether password is visible', 
+        name: 'passwordVisible',
+        desc: 'Whether password is visible',
+        locale: localeName
+    );
+  }
 }
 
