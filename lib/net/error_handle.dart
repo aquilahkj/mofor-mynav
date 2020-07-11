@@ -19,8 +19,7 @@ class ExceptionHandle {
 
   static NetError handleException(dynamic error) {
     if (error is DioError) {
-      if (error.type == DioErrorType.DEFAULT ||
-          error.type == DioErrorType.RESPONSE) {
+      if (error.type == DioErrorType.DEFAULT || error.type == DioErrorType.RESPONSE) {
         dynamic e = error.error;
         if (e is SocketException) {
           return NetError(socket_error, '网络异常，请检查你的网络！', error: e);
@@ -47,10 +46,15 @@ class ExceptionHandle {
 class NetError implements Exception {
   NetError(
     this.code,
-    this.msg, {
+    this.message, {
     this.error,
   });
   final int code;
-  final String msg;
+  final String message;
   final dynamic error;
+
+  @override
+  String toString() {
+    return 'NetError $message';
+  }
 }

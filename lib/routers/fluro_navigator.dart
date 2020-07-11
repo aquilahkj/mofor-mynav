@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
-import 'application.dart';
+import '../common/application.dart';
 import 'routes.dart';
 
 /// fluro的路由跳转工具类

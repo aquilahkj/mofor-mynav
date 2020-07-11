@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class DeliverymanAppDetailDto {
-  DeliverymanAppDetailDto({
+class UserInfoDetailModel {
+  UserInfoDetailModel({
     this.id,
     this.type,
     this.name,
@@ -40,8 +40,8 @@ class DeliverymanAppDetailDto {
   final String jobShippingCenterName;
   final String jobShippingPointId;
   final String jobShippingPointName;
-  final int jobShippingPointLongitude;
-  final int jobShippingPointLatitude;
+  final double jobShippingPointLongitude;
+  final double jobShippingPointLatitude;
   final String reason;
   final bool canPushMt;
   final bool canCreateTrunkReturn;
@@ -49,7 +49,7 @@ class DeliverymanAppDetailDto {
   final bool isNeedPayDeposit;
   final bool isPayDeposit;
 
-  DeliverymanAppDetailDto copyWith({
+  UserInfoDetailModel copyWith({
     String id,
     int type,
     String name,
@@ -73,7 +73,7 @@ class DeliverymanAppDetailDto {
     bool isNeedPayDeposit,
     bool isPayDeposit,
   }) =>
-      DeliverymanAppDetailDto(
+      UserInfoDetailModel(
         id: id ?? this.id,
         type: type ?? this.type,
         name: name ?? this.name,
@@ -85,14 +85,11 @@ class DeliverymanAppDetailDto {
         verifyStatus: verifyStatus ?? this.verifyStatus,
         isVerify: isVerify ?? this.isVerify,
         jobShippingCenterId: jobShippingCenterId ?? this.jobShippingCenterId,
-        jobShippingCenterName:
-            jobShippingCenterName ?? this.jobShippingCenterName,
+        jobShippingCenterName: jobShippingCenterName ?? this.jobShippingCenterName,
         jobShippingPointId: jobShippingPointId ?? this.jobShippingPointId,
         jobShippingPointName: jobShippingPointName ?? this.jobShippingPointName,
-        jobShippingPointLongitude:
-            jobShippingPointLongitude ?? this.jobShippingPointLongitude,
-        jobShippingPointLatitude:
-            jobShippingPointLatitude ?? this.jobShippingPointLatitude,
+        jobShippingPointLongitude: jobShippingPointLongitude ?? this.jobShippingPointLongitude,
+        jobShippingPointLatitude: jobShippingPointLatitude ?? this.jobShippingPointLatitude,
         reason: reason ?? this.reason,
         canPushMt: canPushMt ?? this.canPushMt,
         canCreateTrunkReturn: canCreateTrunkReturn ?? this.canCreateTrunkReturn,
@@ -101,13 +98,11 @@ class DeliverymanAppDetailDto {
         isPayDeposit: isPayDeposit ?? this.isPayDeposit,
       );
 
-  factory DeliverymanAppDetailDto.fromJson(String str) =>
-      DeliverymanAppDetailDto.fromMap(json.decode(str));
+  factory UserInfoDetailModel.fromJson(String str) => UserInfoDetailModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory DeliverymanAppDetailDto.fromMap(Map<String, dynamic> json) =>
-      DeliverymanAppDetailDto(
+  factory UserInfoDetailModel.fromMap(Map<String, dynamic> json) => UserInfoDetailModel(
         id: json["id"],
         type: json["type"],
         name: json["name"],

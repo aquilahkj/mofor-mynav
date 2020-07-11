@@ -1,8 +1,8 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mynav/common/application.dart';
 import 'package:mynav/common/constant.dart';
-import 'package:mynav/utils/error_utils.dart';
-import 'package:rxdart/rxdart.dart';
+// import 'package:rxdart/rxdart.dart';
 
 import 'package:mynav/models/app_login_request_model.dart';
 import 'package:mynav/models/json_web_token_model.dart';
@@ -12,7 +12,9 @@ import 'package:mynav/services/oauth_service.dart';
 class LoginProvider extends BaseProvider {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final OAuthService _authService = OAuthService();
   bool _verifyPass = false;
+  bool _loginSuccess = false;
 
   LoginProvider() {
     _nameController.addListener(_verify);
@@ -30,20 +32,16 @@ class LoginProvider extends BaseProvider {
 
   bool get verifyPass => _verifyPass;
 
-  Stream<JsonWebTokenModel> login() {
-    SpUtil.putString(Constant.phone, name);
-    final model =
-        AppLoginRequestModel(userName: name, password: password, userType: 2);
-    return Stream<JsonWebTokenModel>.fromFuture(OAuthService.signIn(model))
-        .asBroadcastStream()
-        .doOnData((data) {
-          print(data);
-        })
-        .doOnError((error, stack) {
-          print(error);
-        })
-        .doOnListen(() => startLoading())
-        .doOnDone(() => endLoading());
+  bool get loginSuccess => _loginSuccess;
+
+  void login({Function onSuccess, Function onDone, Function(dynamic) onError}) {
+    final model = AppLoginRequestModel(userName: name, password: password, userType: 2);
+    final stream = Stream<JsonWebTokenModel>.fromFuture(_authService.signIn(model));
+    process(stream, (data) {
+      SpUtil.putString(Constant.phone, name);
+      Application.setToken(data.accessToken, data.refreshToken);
+      _loginSuccess = true;
+    }, onSuccess: onSuccess, onDone: onDone, onError: onError);
   }
 
   void _verify() {

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mynav/utils/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
 
-// import 'package:mynav/provider/view_state.dart';
+// typedef ErrorCallback = void Function(dynamic);
+// typedef SuccessCallback = void Function();
+// typedef DoneCallback = void Function();
 
 abstract class BaseProvider extends ChangeNotifier {
   bool _disposed = false;
@@ -30,6 +33,31 @@ abstract class BaseProvider extends ChangeNotifier {
   void endLoading() {
     _loading = false;
     notifyListeners();
+  }
+
+  @protected
+  void process<T>(Stream<T> stream, Function(T) onData,
+      {Function onSuccess, Function onDone, Function(dynamic) onError}) {
+    startLoading();
+    final sub = stream.listen((data) {
+      if (onSuccess != null) {
+        onSuccess();
+      }
+      if (onData != null) {
+        onData(data);
+      }
+    }, onDone: () {
+      endLoading();
+      if (onDone != null) {
+        onDone();
+      }
+    }, onError: (e, s) {
+      LogUtils.es(e, stack: s);
+      if (onError != null) {
+        onError(e);
+      }
+    });
+    addSubscription(sub);
   }
 
   @override

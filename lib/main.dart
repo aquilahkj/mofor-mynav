@@ -4,10 +4,11 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mynav/net/dio_utils.dart';
+import 'package:mynav/modules/home/provider/app_info_provider.dart';
+import 'package:mynav/net/dio_client.dart';
 import 'package:mynav/net/intercept.dart';
 import 'package:mynav/provider/theme_provider.dart';
-import 'package:mynav/routers/application.dart';
+import 'package:mynav/common/application.dart';
 import 'package:mynav/routers/routes.dart';
 import 'package:mynav/utils/device_utils.dart';
 import 'package:mynav/utils/log_utils.dart';
@@ -27,8 +28,7 @@ Future<void> main() async {
   runApp(MyApp());
   // 透明状态栏
   if (Device.isAndroid) {
-    final SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    final SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
   final ThemeData theme;
 
   MyApp({this.home, this.theme}) {
-    Log.init();
+    LogUtils.init();
     initDio();
     final Router router = Router();
     Routes.configureRoutes(router);
@@ -73,8 +73,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Application.rootContext = context;
     return OKToast(
-        child: ChangeNotifierProvider<ThemeProvider>(
-          create: (_) => ThemeProvider(),
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider()),
+            ChangeNotifierProvider<AppInfoProvider>(create: (_) => AppInfoProvider())
+          ],
           child: Consumer<ThemeProvider>(
             builder: (_, provider, __) {
               return MaterialApp(
@@ -95,10 +98,7 @@ class MyApp extends StatelessWidget {
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
                 ],
-                supportedLocales: const <Locale>[
-                  Locale('zh', 'CN'),
-                  Locale('en', 'US')
-                ],
+                supportedLocales: const <Locale>[Locale('zh', 'CN'), Locale('en', 'US')],
                 builder: (context, child) {
                   /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
                   return MediaQuery(
@@ -115,8 +115,7 @@ class MyApp extends StatelessWidget {
 
         /// Toast 配置
         backgroundColor: Colors.black54,
-        textPadding:
-            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        textPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         radius: 20.0,
         position: ToastPosition.bottom);
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mynav/common/application.dart';
 import 'package:mynav/common/constant.dart';
 import 'package:mynav/modules/home/home_page.dart';
 import 'package:mynav/modules/login/login_router.dart';
@@ -55,23 +56,20 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _initSplash() {
-    _subscription =
-        Stream.value(1).delay(Duration(milliseconds: 1500)).listen((_) {
+    _subscription = Stream.value(1).delay(Duration(milliseconds: 1500)).listen((_) {
       if (SpUtil.getBool(Constant.keyGuide, defValue: true)) {
         SpUtil.putBool(Constant.keyGuide, false);
         _initGuide();
       } else {
-        final accessToken = SpUtil.getString(Constant.accessToken);
-        final refreshToken = SpUtil.getString(Constant.refreshToken);
+        final accessToken = Application.getAccessToken();
+        final refreshToken = Application.getRefreshToken();
         if (accessToken != null && refreshToken != null) {
           try {
-            final map = JwtUtils.tryParseJwt(refreshToken);
-            if (map != null) {
-              final int exp = map["exp"];
-              if (DateTime.now().millisecondsSinceEpoch / 1000 < exp) {
-                _goHome();
-                return;
-              }
+            final map = JwtUtils.parseJwt(refreshToken);
+            final int exp = map["exp"];
+            if (DateTime.now().millisecondsSinceEpoch / 1000 < exp) {
+              _goHome();
+              return;
             }
           } catch (e) {
             print(e);
@@ -83,7 +81,8 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _goHome() {
-    NavigatorUtils.push(context, Routes.home, replace: true);
+    // NavigatorUtils.push(context, Routes.home, replace: true);
+    NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
   }
 
   void _goLogin() {

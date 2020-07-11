@@ -27,27 +27,24 @@ void setInitDio({
   _interceptors = interceptors ?? _interceptors;
 }
 
-typedef SuccessCallback = Function(dynamic data);
-typedef ErrorCallback = Function(int code, String msg);
-
 /// @weilu https://github.com/simplezhli
-class DioUtils {
-  static final DioUtils _singleton = DioUtils._();
+class DioClient {
+  static final DioClient _singleton = DioClient._();
 
-  static DioUtils get instance => DioUtils();
+  static DioClient get instance => _singleton;
 
-  factory DioUtils() => _singleton;
+  // factory DioClient() => _singleton;
 
-  static Dio _dio;
+  Dio _dio;
 
   Dio get dio => _dio;
 
-  DioUtils._() {
-    BaseOptions _options = BaseOptions(
+  DioClient._() {
+    final _options = BaseOptions(
       connectTimeout: _connectTimeout,
       receiveTimeout: _receiveTimeout,
       sendTimeout: _sendTimeout,
-      responseType: ResponseType.plain,
+      responseType: ResponseType.json,
       validateStatus: (status) {
         // 不使用http状态码判断状态，使用AdapterInterceptor来处理（适用于标准REST风格）
         return true;
@@ -74,6 +71,8 @@ class DioUtils {
     });
   }
 
+  DioClient(this._dio);
+
   // 数据返回格式统一，统一处理异常
   Future<dynamic> _request(
     String method,
@@ -98,16 +97,15 @@ class DioUtils {
       throw ExceptionHandle.handleException(e);
     }
     if (response.statusCode != HttpStatus.ok) {
-      throw NetError(response.statusCode,
-          'service error: statusCode: ${response.statusCode}');
+      throw NetError(response.statusCode, 'service error: statusCode: ${response.statusCode}');
     }
+
     ResultModel result;
     try {
-      result = ResultModel.fromJson(response.data.toString());
+      result = ResultModel.fromJson(response.data);
     } catch (e) {
       print(e);
-      throw NetError(ExceptionHandle.parse_error, 'Result data parse error',
-          error: e);
+      throw NetError(ExceptionHandle.parse_error, 'Result data parse error', error: e);
     }
     if (result.code != 1) {
       print('$url error, code:${result.code}, message:${result.message}');
@@ -122,10 +120,7 @@ class DioUtils {
     CancelToken cancelToken,
     Options options,
   }) async {
-    return await _request("GET", url,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+    return await _request("GET", url, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Future<dynamic> postRequest(
@@ -136,10 +131,7 @@ class DioUtils {
     Options options,
   }) async {
     return await _request("POST", url,
-        data: data,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+        data: data, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Future<dynamic> putRequest(
@@ -150,10 +142,7 @@ class DioUtils {
     Options options,
   }) async {
     return await _request("PUT", url,
-        data: data,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+        data: data, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Future<dynamic> patchRequest(
@@ -164,10 +153,7 @@ class DioUtils {
     Options options,
   }) async {
     return await _request("PATCH", url,
-        data: data,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+        data: data, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Future<dynamic> deleteRequest(
@@ -178,10 +164,7 @@ class DioUtils {
     Options options,
   }) async {
     return await _request("DELETE", url,
-        data: data,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+        data: data, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Future<dynamic> headRequest(
@@ -190,124 +173,19 @@ class DioUtils {
     CancelToken cancelToken,
     Options options,
   }) async {
-    return await _request("HEAD", url,
-        queryParameters: queryParameters,
-        cancelToken: cancelToken,
-        options: options);
+    return await _request("HEAD", url, queryParameters: queryParameters, cancelToken: cancelToken, options: options);
   }
 
   Options _checkOptions(String method, Options options) {
     options ??= Options();
     options.method = method;
+    options.responseType = ResponseType.plain;
     return options;
   }
 
-  // Future request(
-  //   Method method,
-  //   String url, {
-  //   SuccessCallback onSuccess,
-  //   ErrorCallback onError,
-  //   dynamic params,
-  //   Map<String, dynamic> queryParameters,
-  //   CancelToken cancelToken,
-  //   Options options,
-  // }) {
-  //   String m = _getRequestMethod(method);
-  //   return _request(
-  //     m,
-  //     url,
-  //     data: params,
-  //     queryParameters: queryParameters,
-  //     options: options,
-  //     cancelToken: cancelToken,
-  //   ).then((ResultEntity result) {
-  //     if (result.code == 0) {
-  //       if (onSuccess != null) {
-  //         onSuccess(result.data);
-  //       }
-  //     } else {
-  //       _onError(result.code, result.message, onError);
-  //     }
-  //   }, onError: (dynamic e) {
-  //     _cancelLogPrint(e, url);
-  //     final NetError error = ExceptionHandle.handleException(e);
-  //     _onError(error.code, error.msg, onError);
-  //   });
-  // }
-
-  // Future<ResultEntity> request(
-  //   Method method,
-  //   String url, {
-  //   dynamic params,
-  //   Map<String, dynamic> queryParameters,
-  //   CancelToken cancelToken,
-  //   Options options,
-  // }) async {
-  //   String m = _getRequestMethod(method);
-  //   ResultEntity result;
-  //   try {
-  //     result = await _request(
-  //       m,
-  //       url,
-  //       data: params,
-  //       queryParameters: queryParameters,
-  //       options: options,
-  //       cancelToken: cancelToken,
-  //     );
-  //   } catch (e, s) {
-  //     final NetError error = ExceptionHandle.handleException(e);
-  //     _cancel(e, url);
-  //     throw error;
-  //   }
-  //   if (result.code != 0) {}
-  //   return result;
-  // }
-
   void _cancel(dynamic e, String url) {
     if (e is DioError && CancelToken.isCancel(e)) {
-      Log.e('取消请求接口： $url');
+      LogUtils.e('取消请求接口： $url');
     }
   }
-
-  // void _onError(int code, String msg, ErrorCallback onError) {
-  //   if (code == null) {
-  //     code = ExceptionHandle.unknown_error;
-  //     msg = '未知异常';
-  //   }
-  //   Log.e('接口请求异常： code: $code, mag: $msg');
-  //   if (onError != null) {
-  //     onError(code, msg);
-  //   }
-  // }
-
-  // String _getRequestMethod(Method method) {
-  //   String m;
-  //   switch (method) {
-  //     case Method.get:
-  //       m = 'GET';
-  //       break;
-  //     case Method.post:
-  //       m = 'POST';
-  //       break;
-  //     case Method.put:
-  //       m = 'PUT';
-  //       break;
-  //     case Method.patch:
-  //       m = 'PATCH';
-  //       break;
-  //     case Method.delete:
-  //       m = 'DELETE';
-  //       break;
-  //     case Method.head:
-  //       m = 'HEAD';
-  //       break;
-  //   }
-  //   return m;
-  // }
 }
-
-// Map<String, dynamic> parseData(String data) {
-//   return json.decode(data);
-// }
-
-// enum Method { get, post, put, patch, delete, head }

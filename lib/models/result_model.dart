@@ -19,7 +19,23 @@ class ResultModel {
   factory ResultModel.fromMap(Map<String, dynamic> json) => ResultModel(
         json["code"] == null ? null : json["code"],
         json["message"] == null ? null : json["message"],
-        json["operationTime"] == null ? null: DateTime.parse(json["operationTime"]),
+        json["operationTime"] == null
+            ? null
+            : DateTime.parse(json["operationTime"]),
         json["data"] == null ? null : json["data"],
       );
+}
+
+class ResponseModel<T> {
+  ResponseModel(
+    this.code,
+    this.message,
+    this.operationTime,
+    this.data,
+  );
+
+  int code;
+  String message;
+  DateTime operationTime;
+  T data;
 }

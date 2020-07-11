@@ -1,18 +1,19 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
-import 'package:mynav/common/constant.dart';
+import 'package:mynav/common/application.dart';
+import 'package:mynav/models/refresh_token_request_model.dart';
+import 'package:mynav/services/oauth_service.dart';
 import 'package:mynav/utils/log_utils.dart';
 import 'package:sprintf/sprintf.dart';
 
-import 'dio_utils.dart';
+import 'dio_client.dart';
 import 'error_handle.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
   Future onRequest(RequestOptions options) {
-    final String accessToken = SpUtil.getString(Constant.accessToken);
+    final String accessToken = Application.getAccessToken();
     if (accessToken.isNotEmpty) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }
@@ -23,17 +24,19 @@ class AuthInterceptor extends Interceptor {
 
 class TokenInterceptor extends Interceptor {
   Future<String> getToken() async {
-    final Map<String, String> params = <String, String>{};
-    params['refreshToken'] = SpUtil.getString(Constant.refreshToken);
-    try {
-      _tokenDio.options = DioUtils.instance.dio.options;
-      final Response response =
-          await _tokenDio.post('oAuth/refreshToken', data: params);
-      if (response.statusCode == ExceptionHandle.success) {
-        return json.decode(response.data.toString())['accessToken'];
+    final refreshToken = Application.getRefreshToken();
+    if (refreshToken != null) {
+      final model = RefreshTokenRequestModel(refreshToken: refreshToken);
+      _tokenDio.options = DioClient.instance.dio.options;
+      final client = DioClient(_tokenDio);
+      final service = OAuthService(dioClient: client);
+      try {
+        final data = await service.refreshToken(model);
+        Application.setToken(data.accessToken, data.refreshToken);
+        return data.accessToken;
+      } catch (e) {
+        LogUtils.e('刷新Token失败！');
       }
-    } catch (e) {
-      Log.e('刷新Token失败！');
     }
     return null;
   }
@@ -43,14 +46,13 @@ class TokenInterceptor extends Interceptor {
   @override
   Future<Object> onResponse(Response response) async {
     //401代表token过期
-    if (response != null &&
-        response.statusCode == ExceptionHandle.unauthorized) {
-      Log.d('-----------自动刷新Token------------');
-      final Dio dio = DioUtils.instance.dio;
+    if (response != null && response.statusCode == ExceptionHandle.unauthorized) {
+      LogUtils.v('-----------自动刷新Token------------');
+      final Dio dio = DioClient.instance.dio;
       dio.interceptors.requestLock.lock();
       final String accessToken = await getToken(); // 获取新的accessToken
-      Log.e('-----------NewToken: $accessToken ------------');
-      SpUtil.putString(Constant.accessToken, accessToken);
+      LogUtils.v('NewToken $accessToken');
+      // SpUtil.putString(Constant.accessToken, accessToken);
       dio.interceptors.requestLock.unlock();
 
       if (accessToken != null) {
@@ -58,7 +60,7 @@ class TokenInterceptor extends Interceptor {
         final RequestOptions request = response.request;
         request.headers['Authorization'] = 'Bearer $accessToken';
         try {
-          Log.e('----------- 重新请求接口 ------------');
+          LogUtils.v('----------- 重新请求接口 ------------');
 
           /// 避免重复执行拦截器，使用tokenDio
           final Response response = await _tokenDio.request(request.path,
@@ -84,20 +86,17 @@ class LoggingInterceptor extends Interceptor {
   @override
   Future onRequest(RequestOptions options) {
     _startTime = DateTime.now();
-    Log.d('----------Start----------');
+    LogUtils.v('----------Start----------');
     if (options.queryParameters.isEmpty) {
-      Log.d('RequestUrl: ' + options.baseUrl + options.path);
+      LogUtils.v('RequestUrl: ' + options.baseUrl + options.path);
     } else {
-      Log.d('RequestUrl: ' +
-          options.baseUrl +
-          options.path +
-          '?' +
-          Transformer.urlEncodeMap(options.queryParameters));
+      LogUtils.v(
+          'RequestUrl: ' + options.baseUrl + options.path + '?' + Transformer.urlEncodeMap(options.queryParameters));
     }
-    Log.d('RequestMethod: ' + options.method);
-    Log.d('RequestHeaders:' + options.headers.toString());
-    Log.d('RequestContentType: ${options.contentType}');
-    Log.d('RequestData: ${options.data.toString()}');
+    LogUtils.v('RequestMethod: ' + options.method);
+    LogUtils.v('RequestHeaders:' + options.headers.toString());
+    LogUtils.v('RequestContentType: ${options.contentType}');
+    LogUtils.v('RequestData: ${options.data.toString()}');
     return super.onRequest(options);
   }
 
@@ -106,19 +105,19 @@ class LoggingInterceptor extends Interceptor {
     _endTime = DateTime.now();
     int duration = _endTime.difference(_startTime).inMilliseconds;
     if (response.statusCode == ExceptionHandle.success) {
-      Log.d('ResponseCode: ${response.statusCode}');
+      LogUtils.v('ResponseCode: ${response.statusCode}');
     } else {
-      Log.e('ResponseCode: ${response.statusCode}');
+      LogUtils.e('ResponseCode: ${response.statusCode}');
     }
     // 输出结果
-    Log.json(response.data.toString());
-    Log.d('----------End: $duration 毫秒----------');
+    LogUtils.v(response.data);
+    LogUtils.v('----------End: $duration 毫秒----------');
     return super.onResponse(response);
   }
 
   @override
   Future onError(DioError err) {
-    Log.d('----------Error-----------');
+    LogUtils.v('----------Error-----------');
     return super.onError(err);
   }
 }
@@ -132,8 +131,7 @@ class AdapterInterceptor extends Interceptor {
   static const String _kNotFound = '未找到查询信息';
 
   static const String _kFailureFormat = '{\"code\":%d,\"message\":\"%s\"}';
-  static const String _kSuccessFormat =
-      '{\"code\":0,\"data\":null,\"message\":\"\"}';
+  static const String _kSuccessFormat = '{\"code\":0,\"data\":null,\"message\":\"\"}';
 
   @override
   Future onResponse(Response response) {
@@ -154,8 +152,7 @@ class AdapterInterceptor extends Interceptor {
     String content = response.data == null ? '' : response.data.toString();
 
     /// 成功时，直接格式化返回
-    if (response.statusCode == ExceptionHandle.success ||
-        response.statusCode == ExceptionHandle.success_not_content) {
+    if (response.statusCode == ExceptionHandle.success || response.statusCode == ExceptionHandle.success_not_content) {
       if (content == null || content.isEmpty) {
         content = _kSuccessFormat;
       } else {
@@ -194,10 +191,9 @@ class AdapterInterceptor extends Interceptor {
               response.statusCode = ExceptionHandle.success;
             }
           } catch (e) {
-            Log.d('异常信息：$e');
+            LogUtils.v('异常信息：$e');
             // 解析异常直接按照返回原数据处理（一般为返回500,503 HTML页面代码）
-            result = sprintf(_kFailureFormat,
-                [response.statusCode, '服务器异常(${response.statusCode})']);
+            result = sprintf(_kFailureFormat, [response.statusCode, '服务器异常(${response.statusCode})']);
           }
         }
       }

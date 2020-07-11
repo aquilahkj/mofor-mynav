@@ -38,13 +38,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(LoginProvider provider) {
-    final s = provider.login().listen((_) {
+    provider.login(onSuccess: () {
       //success
       Toast.show("login success");
     }, onError: (e) {
-      ErrorUtils.dispatchFailure(e);
+      ErrorUtils.showError(e);
     });
-    provider.addSubscription(s);
   }
 
   @override
@@ -60,8 +59,7 @@ class _LoginPageState extends State<LoginPage> {
             },
           ),
           body: GeneralScrollView(
-            keyboardConfig: Utils.getKeyboardActionsConfig(
-                context, <FocusNode>[_nodeText1, _nodeText2]),
+            keyboardConfig: Utils.getKeyboardActionsConfig(context, <FocusNode>[_nodeText1, _nodeText2]),
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
             children: _buildBody(context),
           )),
@@ -86,8 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: provider.nameController,
                         maxLength: 16,
                         keyboardType: TextInputType.text,
-                        hintText:
-                            AppLocalizations.of(context).inputUsernameHint,
+                        hintText: AppLocalizations.of(context).inputUsernameHint,
                       ),
                       Gaps.vGap8,
                       InputTextField(
@@ -98,13 +95,12 @@ class _LoginPageState extends State<LoginPage> {
                         controller: provider.passwordController,
                         maxLength: 16,
                         keyboardType: TextInputType.visiblePassword,
-                        hintText:
-                            AppLocalizations.of(context).inputPasswordHint,
+                        hintText: AppLocalizations.of(context).inputPasswordHint,
                       ),
                       Gaps.vGap24,
                       GeneralButton(
                         key: const Key('login'),
-                        onPressed: provider.verifyPass && !provider.loading
+                        onPressed: provider.verifyPass && !provider.loading && !provider.loginSuccess
                             ? () => _login(provider)
                             : null,
                         text: AppLocalizations.of(context).login,
@@ -120,8 +116,7 @@ class _LoginPageState extends State<LoginPage> {
             key: const Key('forgotPassword'),
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          onTap: () =>
-              NavigatorUtils.push(context, LoginRouter.resetPasswordPage),
+          onTap: () => NavigatorUtils.push(context, LoginRouter.resetPasswordPage),
         ),
       ),
       Gaps.vGap16,
