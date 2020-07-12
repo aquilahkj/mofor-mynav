@@ -35,7 +35,7 @@ class TokenInterceptor extends Interceptor {
         Application.setToken(data.accessToken, data.refreshToken);
         return data.accessToken;
       } catch (e) {
-        LogUtils.e('刷新Token失败！');
+        LogUtils.e('Refresh Token Failed！');
       }
     }
     return null;
@@ -47,10 +47,10 @@ class TokenInterceptor extends Interceptor {
   Future<Object> onResponse(Response response) async {
     //401代表token过期
     if (response != null && response.statusCode == ExceptionHandle.unauthorized) {
-      LogUtils.v('-----------自动刷新Token------------');
+      LogUtils.v('----------- Auto Refresh Token ------------');
       final Dio dio = DioClient.instance.dio;
       dio.interceptors.requestLock.lock();
-      final String accessToken = await getToken(); // 获取新的accessToken
+      String accessToken = await getToken(); // 获取新的accessToken
       LogUtils.v('NewToken $accessToken');
       // SpUtil.putString(Constant.accessToken, accessToken);
       dio.interceptors.requestLock.unlock();
@@ -60,7 +60,7 @@ class TokenInterceptor extends Interceptor {
         final RequestOptions request = response.request;
         request.headers['Authorization'] = 'Bearer $accessToken';
         try {
-          LogUtils.v('----------- 重新请求接口 ------------');
+          LogUtils.v('----------- Rerequest Interface ------------');
 
           /// 避免重复执行拦截器，使用tokenDio
           final Response response = await _tokenDio.request(request.path,
@@ -111,7 +111,7 @@ class LoggingInterceptor extends Interceptor {
     }
     // 输出结果
     LogUtils.v(response.data);
-    LogUtils.v('----------End: $duration 毫秒----------');
+    LogUtils.v('----------End: $duration ms----------');
     return super.onResponse(response);
   }
 
@@ -127,8 +127,7 @@ class AdapterInterceptor extends Interceptor {
   static const String _kSlash = '\'';
   static const String _kMessage = 'message';
 
-  // static const String _kDefaultText = '\"无返回信息\"';
-  static const String _kNotFound = '未找到查询信息';
+  static const String _kNotFound = 'No Data';
 
   static const String _kFailureFormat = '{\"code\":%d,\"message\":\"%s\"}';
   static const String _kSuccessFormat = '{\"code\":0,\"data\":null,\"message\":\"\"}';
@@ -181,7 +180,7 @@ class AdapterInterceptor extends Interceptor {
             } else if (map.containsKey(_kMsg)) {
               msg = map[_kMsg];
             } else {
-              msg = '未知异常';
+              msg = 'Unknow Error';
             }
             result = sprintf(_kFailureFormat, [response.statusCode, msg]);
             // 401 token失效时，单独处理，其他一律为成功
@@ -191,9 +190,9 @@ class AdapterInterceptor extends Interceptor {
               response.statusCode = ExceptionHandle.success;
             }
           } catch (e) {
-            LogUtils.v('异常信息：$e');
+            LogUtils.v('Exception：$e');
             // 解析异常直接按照返回原数据处理（一般为返回500,503 HTML页面代码）
-            result = sprintf(_kFailureFormat, [response.statusCode, '服务器异常(${response.statusCode})']);
+            result = sprintf(_kFailureFormat, [response.statusCode, 'Service Exception(${response.statusCode})']);
           }
         }
       }

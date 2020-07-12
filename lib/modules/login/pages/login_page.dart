@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flustars/flustars.dart';
-import 'package:mynav/common/constant.dart';
 import 'package:mynav/localization/app_localizations.dart';
+import 'package:mynav/modules/home/provider/app_info_provider.dart';
 import 'package:mynav/modules/login/providers/login_provider.dart';
 import 'package:mynav/res/gaps.dart';
 import 'package:mynav/res/styles.dart';
@@ -22,6 +21,10 @@ import '../login_router.dart';
 
 /// design/1注册登录/index.html
 class LoginPage extends StatefulWidget {
+  // final String message;
+
+  // LoginPage({this.message});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -39,10 +42,23 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login(LoginProvider provider) {
     provider.login(onSuccess: () {
-      //success
-      Toast.show("login success");
+      _initData(provider);
     }, onError: (e) {
-      ErrorUtils.showError(e);
+      ErrorUtils.processError(context, e);
+    });
+  }
+
+  void _goHome() {
+    NavigatorUtils.push(context, Routes.home, replace: true, clearStack: true);
+  }
+
+  void _initData(LoginProvider provider) {
+    var appProvider = Provider.of<AppInfoProvider>(context, listen: false);
+    appProvider.refreshUserInfo(onSuccess: () {
+      _goHome();
+    }, onError: (e) {
+      provider.resetloginStatus();
+      ErrorUtils.processError(context, e);
     });
   }
 

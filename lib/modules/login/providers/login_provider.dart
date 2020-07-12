@@ -44,6 +44,11 @@ class LoginProvider extends BaseProvider {
     }, onSuccess: onSuccess, onDone: onDone, onError: onError);
   }
 
+  void resetloginStatus() {
+    _loginSuccess = false;
+    notifyListeners();
+  }
+
   void _verify() {
     final String name = _nameController.value.text;
     final String password = _passwordController.value.text;

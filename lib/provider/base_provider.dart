@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:mynav/utils/log_utils.dart';
 import 'package:rxdart/rxdart.dart';
 
-// typedef ErrorCallback = void Function(dynamic);
-// typedef SuccessCallback = void Function();
-// typedef DoneCallback = void Function();
-
 abstract class BaseProvider extends ChangeNotifier {
   bool _disposed = false;
   bool _loading = false;
@@ -40,17 +36,17 @@ abstract class BaseProvider extends ChangeNotifier {
       {Function onSuccess, Function onDone, Function(dynamic) onError}) {
     startLoading();
     final sub = stream.listen((data) {
-      if (onSuccess != null) {
-        onSuccess();
-      }
       if (onData != null) {
         onData(data);
       }
+      if (onSuccess != null) {
+        onSuccess();
+      }
     }, onDone: () {
-      endLoading();
       if (onDone != null) {
         onDone();
       }
+      endLoading();
     }, onError: (e, s) {
       LogUtils.es(e, stack: s);
       if (onError != null) {

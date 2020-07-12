@@ -36,10 +36,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-  final Widget home;
-  final ThemeData theme;
-
-  MyApp({this.home, this.theme}) {
+  MyApp() {
     LogUtils.init();
     initDio();
     final Router router = Router();
@@ -71,7 +68,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Application.rootContext = context;
     return OKToast(
         child: MultiProvider(
           providers: [
@@ -87,10 +83,10 @@ class MyApp extends StatelessWidget {
 //              checkerboardRasterCacheImages: true,
 //              showSemanticsDebugger: true, // 显示语义视图
 //              checkerboardOffscreenLayers: true, // 检查离屏渲染
-                theme: theme ?? provider.getTheme(),
+                theme: provider.getTheme(),
                 darkTheme: provider.getTheme(isDarkMode: true),
                 themeMode: provider.getThemeMode(),
-                home: home ?? SplashPage(),
+                home: SplashPage(),
                 onGenerateRoute: Application.router.generator,
                 localizationsDelegates: const [
                   AppLocalizationsDelegate(),
@@ -100,6 +96,8 @@ class MyApp extends StatelessWidget {
                 ],
                 supportedLocales: const <Locale>[Locale('zh', 'CN'), Locale('en', 'US')],
                 builder: (context, child) {
+                  Application.rootContext = context;
+
                   /// 保证文字大小不受手机系统设置影响 https://www.kikt.top/posts/flutter/layout/dynamic-text/
                   return MediaQuery(
                     data: MediaQuery.of(context).copyWith(

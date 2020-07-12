@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:mynav/common/application.dart';
 import 'package:mynav/common/constant.dart';
 import 'package:mynav/modules/home/home_page.dart';
+import 'package:mynav/modules/home/provider/app_info_provider.dart';
 import 'package:mynav/modules/login/login_router.dart';
 import 'package:mynav/routers/fluro_navigator.dart';
 import 'package:mynav/routers/routes.dart';
+import 'package:mynav/utils/error_utils.dart';
 import 'package:mynav/utils/image_utils.dart';
 import 'package:mynav/utils/jwt_utils.dart';
 import 'package:mynav/utils/theme_utils.dart';
 import 'package:mynav/widgets/load_image.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flustars/flustars.dart';
@@ -63,16 +66,16 @@ class _SplashPageState extends State<SplashPage> {
       } else {
         final accessToken = Application.getAccessToken();
         final refreshToken = Application.getRefreshToken();
-        if (accessToken != null && refreshToken != null) {
+        if (accessToken != null && accessToken.isNotEmpty && refreshToken != null && refreshToken.isNotEmpty) {
           try {
             final map = JwtUtils.parseJwt(refreshToken);
             final int exp = map["exp"];
             if (DateTime.now().millisecondsSinceEpoch / 1000 < exp) {
-              _goHome();
+              _initData();
               return;
             }
           } catch (e) {
-            print(e);
+            LogUtil.e(e);
           }
         }
         _goLogin();
@@ -80,9 +83,17 @@ class _SplashPageState extends State<SplashPage> {
     });
   }
 
+  void _initData() {
+    var provider = Provider.of<AppInfoProvider>(context, listen: false);
+    provider.refreshUserInfo(onSuccess: () {
+      _goHome();
+    }, onError: (e) {
+      ErrorUtils.processError(context, e, expiredLogout: true);
+    });
+  }
+
   void _goHome() {
-    // NavigatorUtils.push(context, Routes.home, replace: true);
-    NavigatorUtils.push(context, LoginRouter.loginPage, replace: true);
+    NavigatorUtils.push(context, Routes.home, replace: true);
   }
 
   void _goLogin() {

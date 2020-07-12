@@ -13,13 +13,12 @@ class VerifyTextField extends StatefulWidget {
   const VerifyTextField(
       {Key key,
       @required this.controller,
-      this.maxLength = 16,
+      this.maxLength = 6,
       this.autoFocus = false,
       this.keyboardType = TextInputType.text,
       this.hintText = '',
       this.focusNode,
-      this.isInputPwd = false,
-      this.getVCode,
+      @required this.getVCode,
       this.codeTime,
       this.keyName})
       : super(key: key);
@@ -30,7 +29,6 @@ class VerifyTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final String hintText;
   final FocusNode focusNode;
-  final bool isInputPwd;
   final Future<bool> Function() getVCode;
   final int codeTime;
 
@@ -42,7 +40,6 @@ class VerifyTextField extends StatefulWidget {
 }
 
 class _VerifyTextFieldState extends State<VerifyTextField> {
-  bool _isShowPwd = false;
   bool _isShowDelete = false;
   bool _clickable = true;
 
@@ -92,9 +89,7 @@ class _VerifyTextFieldState extends State<VerifyTextField> {
         _currentSecond = _second;
         _clickable = false;
       });
-      _subscription = Stream.periodic(const Duration(seconds: 1), (int i) => i)
-          .take(_second)
-          .listen((int i) {
+      _subscription = Stream.periodic(const Duration(seconds: 1), (int i) => i).take(_second).listen((int i) {
         setState(() {
           _currentSecond = _second - i - 1;
           _clickable = _currentSecond < 1;
@@ -111,14 +106,13 @@ class _VerifyTextFieldState extends State<VerifyTextField> {
     final TextField textField = TextField(
       focusNode: widget.focusNode,
       maxLength: widget.maxLength,
-      obscureText: widget.isInputPwd ? !_isShowPwd : false,
+      obscureText: false,
       autofocus: widget.autoFocus,
       controller: widget.controller,
       textInputAction: TextInputAction.done,
       keyboardType: widget.keyboardType,
       // 数字、手机号限制格式为0到9(白名单)， 密码限制不包含汉字（黑名单）
-      inputFormatters: (widget.keyboardType == TextInputType.number ||
-              widget.keyboardType == TextInputType.phone)
+      inputFormatters: (widget.keyboardType == TextInputType.number || widget.keyboardType == TextInputType.phone)
           ? [WhitelistingTextInputFormatter(RegExp('[0-9]'))]
           : [BlacklistingTextInputFormatter(RegExp('[\u4e00-\u9fa5]'))],
       decoration: InputDecoration(
@@ -154,24 +148,6 @@ class _VerifyTextFieldState extends State<VerifyTextField> {
       ),
     );
 
-    Widget pwdVisible = Semantics(
-      label: AppLocalizations.of(context).passwordVisibleSwitch,
-      hint: AppLocalizations.of(context).passwordIsVisible,
-      child: GestureDetector(
-        child: LoadAssetImage(
-          _isShowPwd ? 'ic_pwd_display' : 'ic_pwd_hide',
-          key: Key('${widget.keyName}_showPwd'),
-          width: 18.0,
-          height: 40.0,
-        ),
-        onTap: () {
-          setState(() {
-            _isShowPwd = !_isShowPwd;
-          });
-        },
-      ),
-    );
-
     Widget getVCodeButton = Theme(
       data: Theme.of(context).copyWith(
         buttonTheme: const ButtonThemeData(
@@ -196,9 +172,7 @@ class _VerifyTextFieldState extends State<VerifyTextField> {
           ),
         ),
         child: Text(
-          _clickable
-              ? AppLocalizations.of(context).getVerificationCode
-              : '（$_currentSecond s）',
+          _clickable ? AppLocalizations.of(context).getVerificationCode : '（$_currentSecond s）',
           style: TextStyle(fontSize: Dimens.font_sp12),
         ),
       ),
@@ -212,10 +186,8 @@ class _VerifyTextFieldState extends State<VerifyTextField> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             if (_isShowDelete) Gaps.empty else clear,
-            if (!widget.isInputPwd) Gaps.empty else Gaps.hGap15,
-            if (!widget.isInputPwd) Gaps.empty else pwdVisible,
-            if (widget.getVCode == null) Gaps.empty else Gaps.hGap15,
-            if (widget.getVCode == null) Gaps.empty else getVCodeButton,
+            Gaps.hGap15,
+            getVCodeButton,
           ],
         )
       ],
