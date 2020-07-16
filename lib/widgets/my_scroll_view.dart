@@ -6,10 +6,10 @@ import 'package:keyboard_actions/keyboard_actions_config.dart';
 /// 本项目通用的布局（SingleChildScrollView）
 /// 1.底部存在按钮
 /// 2.底部没有按钮
-class GeneralScrollView extends StatelessWidget {
+class MyScrollView extends StatelessWidget {
   /// 注意：同时存在底部按钮与keyboardConfig配置时，为保证软键盘弹出高度正常。需要在`Scaffold`使用 `resizeToAvoidBottomInset: defaultTargetPlatform != TargetPlatform.iOS,`
   /// 除非Android与iOS平台均使用keyboard_actions
-  const GeneralScrollView({
+  const MyScrollView({
     Key key,
     @required this.children,
     this.padding,
@@ -64,10 +64,7 @@ class GeneralScrollView extends StatelessWidget {
 
     if (bottomButton != null) {
       contents = Column(
-        children: <Widget>[
-          Expanded(child: contents),
-          SafeArea(child: bottomButton)
-        ],
+        children: <Widget>[Expanded(child: contents), SafeArea(child: bottomButton)],
       );
     }
 

@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "bill" : MessageLookupByLibrary.simpleMessage("账单"),
     "clear" : MessageLookupByLibrary.simpleMessage("清空"),
     "clearInputField" : MessageLookupByLibrary.simpleMessage("清空输入框"),
     "forgotPasswordLink" : MessageLookupByLibrary.simpleMessage("忘记密码"),
@@ -31,11 +32,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputUsernameHint" : MessageLookupByLibrary.simpleMessage("请输入账号"),
     "inputVerificationCodeHint" : MessageLookupByLibrary.simpleMessage("请输入验证码"),
     "login" : MessageLookupByLibrary.simpleMessage("登录"),
+    "logout" : MessageLookupByLibrary.simpleMessage("退出登录"),
+    "myInfo" : MessageLookupByLibrary.simpleMessage("我的"),
     "noAccountRegisterLink" : MessageLookupByLibrary.simpleMessage("还没账号？快去注册"),
     "openYourAccount" : MessageLookupByLibrary.simpleMessage("开启你的账号"),
+    "order" : MessageLookupByLibrary.simpleMessage("订单"),
+    "passwordIsVisible" : MessageLookupByLibrary.simpleMessage("密码是否可见"),
     "passwordLogin" : MessageLookupByLibrary.simpleMessage("密码登录"),
     "passwordVisibleSwitch" : MessageLookupByLibrary.simpleMessage("密码可见开关"),
+    "refreshAppInfo" : MessageLookupByLibrary.simpleMessage("刷新App信息"),
     "register" : MessageLookupByLibrary.simpleMessage("注册"),
+    "statistics" : MessageLookupByLibrary.simpleMessage("统计"),
     "title" : MessageLookupByLibrary.simpleMessage("Flutter Deer"),
     "verification" : MessageLookupByLibrary.simpleMessage("验证"),
     "verificationCodeLogin" : MessageLookupByLibrary.simpleMessage("验证码登录")

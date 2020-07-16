@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mynav/res/resources.dart';
 import 'package:mynav/utils/theme_utils.dart';
 
-class GeneralButton extends StatelessWidget {
-  const GeneralButton({
+class MyButton extends StatelessWidget {
+  const MyButton({
     Key key,
     this.text = '',
     @required this.onPressed,
@@ -19,10 +19,8 @@ class GeneralButton extends StatelessWidget {
       onPressed: onPressed,
       textColor: isDark ? Colours.dark_button_text : Colours.button_text,
       color: isDark ? Colours.dark_app_main : Colours.app_main,
-      disabledTextColor:
-          isDark ? Colours.dark_text_disabled : Colours.text_disabled,
-      disabledColor:
-          isDark ? Colours.dark_button_disabled : Colours.button_disabled,
+      disabledTextColor: isDark ? Colours.dark_text_disabled : Colours.text_disabled,
+      disabledColor: isDark ? Colours.dark_button_disabled : Colours.button_disabled,
       //shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Container(
         height: 48,

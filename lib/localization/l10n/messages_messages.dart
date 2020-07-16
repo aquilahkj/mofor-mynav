@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "bill" : MessageLookupByLibrary.simpleMessage("Bill"),
     "clear" : MessageLookupByLibrary.simpleMessage("Clear"),
     "clearInputField" : MessageLookupByLibrary.simpleMessage("Clear the input field"),
     "forgotPasswordLink" : MessageLookupByLibrary.simpleMessage("Forgot Password"),
@@ -31,11 +32,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "inputUsernameHint" : MessageLookupByLibrary.simpleMessage("Please input Username"),
     "inputVerificationCodeHint" : MessageLookupByLibrary.simpleMessage("Please enter verification code"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
+    "logout" : MessageLookupByLibrary.simpleMessage("Logout"),
+    "myInfo" : MessageLookupByLibrary.simpleMessage("My Info"),
     "noAccountRegisterLink" : MessageLookupByLibrary.simpleMessage("No account yet? Register now"),
     "openYourAccount" : MessageLookupByLibrary.simpleMessage("Open your account"),
+    "order" : MessageLookupByLibrary.simpleMessage("Order"),
+    "passwordIsVisible" : MessageLookupByLibrary.simpleMessage("Whether password is visible"),
     "passwordLogin" : MessageLookupByLibrary.simpleMessage("Password Login"),
     "passwordVisibleSwitch" : MessageLookupByLibrary.simpleMessage("Password Visible Switch"),
+    "refreshAppInfo" : MessageLookupByLibrary.simpleMessage("Refresh the app info"),
     "register" : MessageLookupByLibrary.simpleMessage("Register"),
+    "statistics" : MessageLookupByLibrary.simpleMessage("Statistics"),
     "title" : MessageLookupByLibrary.simpleMessage("Flutter Deer"),
     "verification" : MessageLookupByLibrary.simpleMessage("Not really sent, just log in!"),
     "verificationCodeLogin" : MessageLookupByLibrary.simpleMessage("Verification Code Login")

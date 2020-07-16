@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-25T14:36:49.144795",
+  "@@last_modified": "2020-07-13T09:08:03.349027",
   "title": "Flutter Deer",
   "@title": {
     "description": "Title for the application",
@@ -105,6 +105,48 @@
   "passwordVisibleSwitch": "Password Visible Switch",
   "@passwordVisibleSwitch": {
     "description": "Password Visible Switch",
+    "type": "text",
+    "placeholders": {}
+  },
+  "passwordIsVisible": "Whether password is visible",
+  "@passwordIsVisible": {
+    "description": "Whether password is visible",
+    "type": "text",
+    "placeholders": {}
+  },
+  "order": "Order",
+  "@order": {
+    "description": "Order",
+    "type": "text",
+    "placeholders": {}
+  },
+  "bill": "Bill",
+  "@bill": {
+    "description": "Bill",
+    "type": "text",
+    "placeholders": {}
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics",
+    "type": "text",
+    "placeholders": {}
+  },
+  "myInfo": "My Info",
+  "@myInfo": {
+    "description": "My Info",
+    "type": "text",
+    "placeholders": {}
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout",
+    "type": "text",
+    "placeholders": {}
+  },
+  "refreshAppInfo": "Refresh the app info",
+  "@refreshAppInfo": {
+    "description": "Refresh the app info",
     "type": "text",
     "placeholders": {}
   }

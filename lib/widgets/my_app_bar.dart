@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mynav/res/resources.dart';
@@ -8,17 +7,16 @@ import 'load_image.dart';
 
 /// 自定义AppBar
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-
-  const MyAppBar({
-    Key key,
-    this.backgroundColor,
-    this.title = '',
-    this.centerTitle = '',
-    this.actionName = '',
-    this.backImg = 'ic_arrow_back',
-    this.onPressed,
-    this.isBack = true
-  }): super(key: key);
+  const MyAppBar(
+      {Key key,
+      this.backgroundColor,
+      this.title = '',
+      this.centerTitle = '',
+      this.actionName = '',
+      this.backImg = 'ic_arrow_back',
+      this.onPressed,
+      this.isBack = true})
+      : super(key: key);
 
   final Color backgroundColor;
   final String title;
@@ -39,35 +37,40 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     SystemUiOverlayStyle _overlayStyle = ThemeData.estimateBrightnessForColor(_backgroundColor) == Brightness.dark
-        ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark;
 
-    var back = isBack ? IconButton(
-      onPressed: () {
-        FocusManager.instance.primaryFocus?.unfocus();
-        Navigator.maybePop(context);
-      },
-      tooltip: 'Back',
-      padding: const EdgeInsets.all(12.0),
-      icon: LoadAssetImage(backImg, color: ThemeUtils.getIconColor(context)),
-    ) : Gaps.empty;
+    var back = isBack
+        ? IconButton(
+            onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              Navigator.maybePop(context);
+            },
+            tooltip: 'Back',
+            padding: const EdgeInsets.all(12.0),
+            icon: LoadAssetImage(backImg, color: ThemeUtils.getIconColor(context)),
+          )
+        : Gaps.empty;
 
-    var action = actionName.isNotEmpty ? Positioned(
-      right: 0.0,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          buttonTheme: ButtonThemeData(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            minWidth: 60.0,
-          ),
-        ),
-        child: FlatButton(
-          child: Text(actionName, key: const Key('actionName')),
-          textColor: ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
-          highlightColor: Colors.transparent,
-          onPressed: onPressed,
-        ),
-      ),
-    ) : Gaps.empty;
+    var action = actionName.isNotEmpty
+        ? Positioned(
+            right: 0.0,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                buttonTheme: ButtonThemeData(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  minWidth: 60.0,
+                ),
+              ),
+              child: FlatButton(
+                child: Text(actionName, key: const Key('actionName')),
+                textColor: ThemeUtils.isDark(context) ? Colours.dark_text : Colours.text,
+                highlightColor: Colors.transparent,
+                onPressed: onPressed,
+              ),
+            ),
+          )
+        : Gaps.empty;
 
     var titleWidget = Semantics(
       namesRoute: true,
@@ -77,12 +80,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         width: double.infinity,
         child: Text(
           title.isEmpty ? centerTitle : title,
-          style: TextStyle(fontSize: Dimens.font_sp18,),
+          style: TextStyle(
+            fontSize: Dimens.font_sp18,
+          ),
         ),
         margin: const EdgeInsets.symmetric(horizontal: 48.0),
       ),
     );
-    
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: _overlayStyle,
       child: Material(

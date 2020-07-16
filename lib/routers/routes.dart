@@ -22,7 +22,7 @@ class Routes {
     });
 
     router.define(home,
-        handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) => TestPage()));
+        handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) => HomePage()));
 
     router.define(webViewPage, handler: Handler(handlerFunc: (_, params) {
       final String title = params['title']?.first;

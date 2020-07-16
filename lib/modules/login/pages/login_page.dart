@@ -11,9 +11,9 @@ import 'package:mynav/routers/routes.dart';
 import 'package:mynav/utils/error_utils.dart';
 import 'package:mynav/utils/toast.dart';
 import 'package:mynav/utils/utils.dart';
-import 'package:mynav/widgets/app_bar.dart';
-import 'package:mynav/widgets/general_button.dart';
-import 'package:mynav/widgets/general_scroll_view.dart';
+import 'package:mynav/widgets/my_app_bar.dart';
+import 'package:mynav/widgets/my_button.dart';
+import 'package:mynav/widgets/my_scroll_view.dart';
 import 'package:mynav/widgets/input_text_field.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
               NavigatorUtils.push(context, LoginRouter.smsLoginPage);
             },
           ),
-          body: GeneralScrollView(
+          body: MyScrollView(
             keyboardConfig: Utils.getKeyboardActionsConfig(context, <FocusNode>[_nodeText1, _nodeText2]),
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
             children: _buildBody(context),
@@ -114,7 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: AppLocalizations.of(context).inputPasswordHint,
                       ),
                       Gaps.vGap24,
-                      GeneralButton(
+                      MyButton(
                         key: const Key('login'),
                         onPressed: provider.verifyPass && !provider.loading && !provider.loginSuccess
                             ? () => _login(provider)

@@ -1,12 +1,10 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mynav/widgets/app_bar.dart';
+import 'package:mynav/widgets/my_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewPage extends StatefulWidget {
-
   const WebViewPage({
     Key key,
     @required this.title,
@@ -15,13 +13,12 @@ class WebViewPage extends StatefulWidget {
 
   final String title;
   final String url;
-  
+
   @override
   _WebViewPageState createState() => _WebViewPageState();
 }
 
 class _WebViewPageState extends State<WebViewPage> {
-
   final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
@@ -42,20 +39,17 @@ class _WebViewPageState extends State<WebViewPage> {
               return Future.value(true);
             },
             child: Scaffold(
-              appBar: MyAppBar(
-                centerTitle: widget.title,
-              ),
-              body: WebView(
-                initialUrl: widget.url,
-                javascriptMode: JavascriptMode.unrestricted,
-                onWebViewCreated: (WebViewController webViewController) {
-                  _controller.complete(webViewController);
-                },
-              )
-            ),
+                appBar: MyAppBar(
+                  centerTitle: widget.title,
+                ),
+                body: WebView(
+                  initialUrl: widget.url,
+                  javascriptMode: JavascriptMode.unrestricted,
+                  onWebViewCreated: (WebViewController webViewController) {
+                    _controller.complete(webViewController);
+                  },
+                )),
           );
-        }
-    );
+        });
   }
-
 }

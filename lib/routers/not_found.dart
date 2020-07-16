@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
-import 'package:mynav/widgets/app_bar.dart';
+import 'package:mynav/widgets/my_app_bar.dart';
 import 'package:mynav/widgets/state_layout.dart';
 
 class WidgetNotFound extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

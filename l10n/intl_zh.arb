@@ -17,5 +17,11 @@
   "clear": "清空",
   "clearInputField": "清空输入框",
   "passwordVisibleSwitch": "密码可见开关",
-  "passwordIsVisible": "密码是否可见"
+  "passwordIsVisible": "密码是否可见",
+  "order": "订单",
+  "bill": "账单",
+  "statistics": "统计",
+  "myInfo": "我的",
+  "logout": "退出登录",
+  "refreshAppInfo": "刷新App信息"
 }

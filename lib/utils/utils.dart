@@ -6,17 +6,17 @@ import 'package:mynav/utils/theme_utils.dart';
 import 'package:mynav/utils/toast.dart';
 import 'package:keyboard_actions/keyboard_action.dart';
 import 'package:keyboard_actions/keyboard_actions_config.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   /// 调起拨号页
   static void launchTelURL(String phone) async {
-    final String url = 'tel:' + phone;
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      Toast.show('拨号失败！');
-    }
+    // final String url = 'tel:' + phone;
+    // if (await canLaunch(url)) {
+    //   await launch(url);
+    // } else {
+    //   Toast.show('拨号失败！');
+    // }
   }
 
   // /// 调起二维码扫描页
@@ -41,15 +41,11 @@ class Utils {
   //   return null;
   // }
 
-  static String formatPrice(String price,
-      {MoneyFormat format = MoneyFormat.END_INTEGER}) {
-    return MoneyUtil.changeYWithUnit(
-        NumUtil.getDoubleByValueStr(price), MoneyUnit.YUAN,
-        format: format);
+  static String formatPrice(String price, {MoneyFormat format = MoneyFormat.END_INTEGER}) {
+    return MoneyUtil.changeYWithUnit(NumUtil.getDoubleByValueStr(price), MoneyUnit.YUAN, format: format);
   }
 
-  static KeyboardActionsConfig getKeyboardActionsConfig(
-      BuildContext context, List<FocusNode> list) {
+  static KeyboardActionsConfig getKeyboardActionsConfig(BuildContext context, List<FocusNode> list) {
     return KeyboardActionsConfig(
       keyboardBarColor: ThemeUtils.getKeyboardActionsColor(context),
       nextFocus: true,
@@ -82,14 +78,11 @@ Future<T> showTransparentDialog<T>({
   final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
   return showGeneralDialog(
     context: context,
-    pageBuilder: (BuildContext buildContext, Animation<double> animation,
-        Animation<double> secondaryAnimation) {
+    pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
       final Widget pageChild = Builder(builder: builder);
       return SafeArea(
         child: Builder(builder: (BuildContext context) {
-          return theme != null
-              ? Theme(data: theme, child: pageChild)
-              : pageChild;
+          return theme != null ? Theme(data: theme, child: pageChild) : pageChild;
         }),
       );
     },
@@ -102,10 +95,7 @@ Future<T> showTransparentDialog<T>({
 }
 
 Widget _buildMaterialDialogTransitions(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child) {
+    BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
   return FadeTransition(
     opacity: CurvedAnimation(
       parent: animation,
@@ -123,14 +113,11 @@ Future<T> showElasticDialog<T>({
   final ThemeData theme = Theme.of(context, shadowThemeOnly: true);
   return showGeneralDialog(
     context: context,
-    pageBuilder: (BuildContext buildContext, Animation<double> animation,
-        Animation<double> secondaryAnimation) {
+    pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
       final Widget pageChild = Builder(builder: builder);
       return SafeArea(
         child: Builder(builder: (BuildContext context) {
-          return theme != null
-              ? Theme(data: theme, child: pageChild)
-              : pageChild;
+          return theme != null ? Theme(data: theme, child: pageChild) : pageChild;
         }),
       );
     },
@@ -143,22 +130,16 @@ Future<T> showElasticDialog<T>({
 }
 
 Widget _buildDialogTransitions(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child) {
+    BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
   return FadeTransition(
     opacity: CurvedAnimation(
       parent: animation,
       curve: Curves.easeOut,
     ),
     child: SlideTransition(
-      position: Tween<Offset>(begin: const Offset(0.0, 0.3), end: Offset.zero)
-          .animate(CurvedAnimation(
+      position: Tween<Offset>(begin: const Offset(0.0, 0.3), end: Offset.zero).animate(CurvedAnimation(
         parent: animation,
-        curve: animation.status != AnimationStatus.forward
-            ? Curves.easeOutBack
-            : const ElasticOutCurve(0.85),
+        curve: animation.status != AnimationStatus.forward ? Curves.easeOutBack : const ElasticOutCurve(0.85),
       )),
       child: child,
     ),

@@ -17,5 +17,11 @@
   "clear": "Clear",
   "clearInputField": "Clear the input field",
   "passwordVisibleSwitch": "Password Visible Switch",
-  "passwordIsVisible": "Whether password is visible"
+  "passwordIsVisible": "Whether password is visible",
+  "order": "Order",
+  "bill": "Bill",
+  "statistics": "Statistics",
+  "myInfo": "My Info",
+  "logout": "Logout",
+  "refreshAppInfo": "Refresh App Info"
 }

@@ -39,7 +39,7 @@ class AppLocalizations {
       'Verification Code Login',
       name: 'verificationCodeLogin',
       desc: 'Title for the Login page',
-      locale: localeName
+      locale: localeName,
     );
   }
 
@@ -48,7 +48,7 @@ class AppLocalizations {
       'Password Login',
       name: 'passwordLogin',
       desc: 'Password Login',
-      locale: localeName
+      locale: localeName,
     );
   }
 
@@ -66,7 +66,7 @@ class AppLocalizations {
       'Forgot Password',
       name: 'forgotPasswordLink',
       desc: 'Forgot Password',
-      locale: localeName
+      locale: localeName,
     );
   }
 
@@ -75,7 +75,7 @@ class AppLocalizations {
       'Please enter the password',
       name: 'inputPasswordHint',
       desc: 'Please enter the password',
-      locale: localeName
+      locale: localeName,
     );
   }
 
@@ -84,7 +84,7 @@ class AppLocalizations {
       'Please input Username',
       name: 'inputUsernameHint',
       desc: 'Please input Username',
-      locale: localeName
+      locale: localeName,
     );
   }
 
@@ -93,107 +93,148 @@ class AppLocalizations {
       'No account yet? Register now',
       name: 'noAccountRegisterLink',
       desc: 'No account yet? Register now',
-      locale: localeName
+      locale: localeName,
     );
   }
-  
+
   String get register {
     return Intl.message(
       'Register',
       name: 'register',
       desc: 'Register',
-      locale: localeName
+      locale: localeName,
     );
   }
 
   String get openYourAccount {
-    return Intl.message(
-      'Open your account', // 开启你的账号 
-      name: 'openYourAccount',
-      desc: 'Open your account',
-      locale: localeName
-    );
+    return Intl.message('Open your account', // 开启你的账号
+        name: 'openYourAccount',
+        desc: 'Open your account',
+        locale: localeName);
   }
 
   String get inputPhoneHint {
-    return Intl.message(
-      'Please enter phone number', // 请输入手机号
-      name: 'inputPhoneHint',
-      desc: 'Please enter phone number',
-      locale: localeName
-    );
+    return Intl.message('Please enter phone number', // 请输入手机号
+        name: 'inputPhoneHint',
+        desc: 'Please enter phone number',
+        locale: localeName);
   }
 
   String get inputVerificationCodeHint {
-    return Intl.message(
-      'Please enter verification code', // 请输入验证码
-      name: 'inputVerificationCodeHint',
-      desc: 'Please enter verification code',
-      locale: localeName
-    );
+    return Intl.message('Please enter verification code', // 请输入验证码
+        name: 'inputVerificationCodeHint',
+        desc: 'Please enter verification code',
+        locale: localeName);
   }
 
   String get inputPhoneInvalid {
-    return Intl.message(
-      'Please input valid mobile phone number', // 请输入有效的手机号
-      name: 'inputPhoneInvalid',
-      desc: 'Please input valid mobile phone number',
-      locale: localeName
-    );
+    return Intl.message('Please input valid mobile phone number', // 请输入有效的手机号
+        name: 'inputPhoneInvalid',
+        desc: 'Please input valid mobile phone number',
+        locale: localeName);
   }
 
   String get verification {
-    return Intl.message(
-      'Not really sent, just log in!', // 并没有真正发送哦，直接登录吧！
-      name: 'verification',
-      desc: 'Not really sent, just log in!',
-      locale: localeName
-    );
+    return Intl.message('Not really sent, just log in!', // 并没有真正发送哦，直接登录吧！
+        name: 'verification',
+        desc: 'Not really sent, just log in!',
+        locale: localeName);
   }
 
   String get getVerificationCode {
-    return Intl.message(
-        'Get verification code', // 获取验证码
+    return Intl.message('Get verification code', // 获取验证码
         name: 'getVerificationCode',
         desc: 'Get verification code',
-        locale: localeName
-    );
+        locale: localeName);
   }
 
   String get clear {
     return Intl.message(
-        'Clear', 
-        name: 'clear',
-        desc: 'Clear',
-        locale: localeName
+      'Clear',
+      name: 'clear',
+      desc: 'Clear',
+      locale: localeName,
     );
   }
 
   String get clearInputField {
     return Intl.message(
-        'Clear the input field',
-        name: 'clearInputField',
-        desc: 'Clear the input field',
-        locale: localeName
+      'Clear the input field',
+      name: 'clearInputField',
+      desc: 'Clear the input field',
+      locale: localeName,
     );
   }
 
   String get passwordVisibleSwitch {
     return Intl.message(
-        'Password Visible Switch', 
-        name: 'passwordVisibleSwitch',
-        desc: 'Password Visible Switch',
-        locale: localeName
+      'Password Visible Switch',
+      name: 'passwordVisibleSwitch',
+      desc: 'Password Visible Switch',
+      locale: localeName,
     );
   }
 
   String get passwordIsVisible {
     return Intl.message(
-        'Whether password is visible', 
-        name: 'passwordVisible',
-        desc: 'Whether password is visible',
-        locale: localeName
+      'Whether password is visible',
+      name: 'passwordIsVisible',
+      desc: 'Whether password is visible',
+      locale: localeName,
+    );
+  }
+
+  String get order {
+    return Intl.message(
+      'Order',
+      name: 'order',
+      desc: 'Order',
+      locale: localeName,
+    );
+  }
+
+  String get bill {
+    return Intl.message(
+      'Bill',
+      name: 'bill',
+      desc: 'Bill',
+      locale: localeName,
+    );
+  }
+
+  String get statistics {
+    return Intl.message(
+      'Statistics',
+      name: 'statistics',
+      desc: 'Statistics',
+      locale: localeName,
+    );
+  }
+
+  String get myInfo {
+    return Intl.message(
+      'My Info',
+      name: 'myInfo',
+      desc: 'My Info',
+      locale: localeName,
+    );
+  }
+
+  String get logout {
+    return Intl.message(
+      'Logout',
+      name: 'logout',
+      desc: 'Logout',
+      locale: localeName,
+    );
+  }
+
+  String get refreshAppInfo {
+    return Intl.message(
+      'Refresh the app info',
+      name: 'refreshAppInfo',
+      desc: 'Refresh the app info',
+      locale: localeName,
     );
   }
 }
-
